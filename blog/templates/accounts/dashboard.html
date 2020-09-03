@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h1 class="display-4">{{ user.username|title }} Dashboard</h1>
+                <p class="lead">Manage your BT Real Estate account</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="dashboard" class="py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Welcome {{ user.username|title }}</h2>
+                {% if articles %}
+                <p><a class="btn btn-dark" href="{% url 'new_article' %}">Create new article</a></p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Created on</th>
+                            <th scope="col">Last modified</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in articles %}
+                        <tr>
+                            <td>{{ article.title }}</td>
+                            <td><p class=" text-muted">{{ article.created_on }}</p></td>
+                            <td><p class=" text-muted">{{ article.updated_on }}</p></td>
+                            <td><a class="btn btn-dark" href="{% url 'article_detail' article.slug %}">View</a></td>
+                            <td><a class="btn btn-light" href="{% url 'delete_article' article.slug %}">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% else %}
+                <p><strong>You don't have any articles....</strong></p>
+                <a class="btn btn-dark" href="{% url 'new_article' %}">Create new article</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
